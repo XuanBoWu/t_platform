@@ -1,0 +1,8 @@
+[
+  {
+    "id": "screen-capture-main",
+    "title": "屏幕截图",
+    "icon": "CameraOutlined",
+    "component": "ScreenCapturePanel"
+  }
+]

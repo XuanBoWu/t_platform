@@ -1,0 +1,22 @@
+{
+  "$schema": "https://raw.githubusercontent.com/electron-userland/electron-builder/master/packages/app-builder-lib/scheme.json",
+  "appId": "com.tplatform.minimax",
+  "productName": "T-Platform",
+  "directories": {
+    "output": "release"
+  },
+  "files": [
+    "dist/**/*",
+    "!dist/renderer/**/*"
+  ],
+  "mac": {
+    "category": "public.app-category.developer-tools",
+    "icon": "resources/icons/mac/icon.icns"
+  },
+  "win": {
+    "icon": "resources/icons/win/icon.ico"
+  },
+  "linux": {
+    "category": "Development"
+  }
+}

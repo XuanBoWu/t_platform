@@ -1,0 +1,19 @@
+{
+  "id": "battery-monitor",
+  "name": "电池监控",
+  "version": "1.0.0",
+  "description": "监控Android设备电池状态和电量变化",
+  "author": "T-Platform",
+  "main": "dist/index.js",
+  "renderer": "dist/renderer.js",
+  "python": {
+    "script": "python/battery_monitor.py"
+  },
+  "capabilities": {
+    "deviceRequired": true,
+    "supportedActions": [
+      "battery:get",
+      "battery:monitor"
+    ]
+  }
+}

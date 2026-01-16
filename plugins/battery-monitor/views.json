@@ -1,0 +1,14 @@
+[
+  {
+    "id": "battery-main",
+    "title": "电池监控",
+    "icon": "ThunderboltOutlined",
+    "component": "BatteryMonitorPanel"
+  },
+  {
+    "id": "battery-history",
+    "title": "历史记录",
+    "icon": "LineChartOutlined",
+    "component": "BatteryHistoryPanel"
+  }
+]

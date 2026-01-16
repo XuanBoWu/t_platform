@@ -1,0 +1,19 @@
+{
+  "id": "screen-capture",
+  "name": "屏幕截图",
+  "version": "1.0.0",
+  "description": "捕获Android设备屏幕并保存为图片",
+  "author": "T-Platform",
+  "main": "dist/index.js",
+  "renderer": "dist/renderer.js",
+  "python": {
+    "script": "python/screen_capture.py"
+  },
+  "capabilities": {
+    "deviceRequired": true,
+    "supportedActions": [
+      "screen:capture",
+      "screen:record"
+    ]
+  }
+}

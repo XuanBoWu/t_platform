@@ -1,0 +1,731 @@
+// Electron 类型声明
+declare module 'electron' {
+  import { EventEmitter } from 'events';
+  import { Readable, Writable } from 'stream';
+  import * as fs from 'fs';
+
+  // App
+  export class App extends EventEmitter {
+    isReady(): boolean;
+    whenReady(): Promise<void>;
+    quit(): void;
+    exit(code: number): void;
+    dock: Dock;
+    name: string;
+    getVersion(): string;
+    getPath(name: 'home' | 'temp' | 'userData' | 'userDesktop' | 'documents' | 'downloads' | 'pictures' | 'music' | 'videos'): string;
+  }
+
+  // BrowserWindow
+  export class BrowserWindow extends EventEmitter {
+    constructor(options?: BrowserWindowConstructorOptions);
+    loadURL(url: string, options?: LoadURLOptions): Promise<void>;
+    loadFile(filePath: string, options?: LoadFileOptions): Promise<void>;
+    show(): void;
+    hide(): void;
+    close(): void;
+    minimize(): void;
+    maximize(): void;
+    restore(): void;
+    setSize(width: number, height: number): void;
+    getSize(): [number, number];
+    setMinimumSize(width: number, height: number): void;
+    setMaximumSize(width: number, height: number): void;
+    setPosition(x: number, y: number): void;
+    getPosition(): [number, number];
+    setTitle(title: string): void;
+    getTitle(): string;
+    setFocusable(focusable: boolean): void;
+    blur(): void;
+    focus(): void;
+    webContents: WebContents;
+    id: number;
+    static getAllWindows(): BrowserWindow[];
+    static getFocusedWindow(): BrowserWindow | null;
+  }
+
+  export interface BrowserWindowConstructorOptions {
+    width?: number;
+    height?: number;
+    minWidth?: number;
+    minHeight?: number;
+    x?: number;
+    y?: number;
+    title?: string;
+    frame?: boolean;
+    transparent?: boolean;
+    backgroundColor?: string;
+    webPreferences?: WebPreferences;
+    icon?: string;
+  }
+
+  export interface WebPreferences {
+    nodeIntegration?: boolean;
+    contextIsolation?: boolean;
+    sandbox?: boolean;
+    preload?: string;
+    devTools?: boolean;
+  }
+
+  export interface LoadURLOptions {
+    httpReferrer?: string;
+    userAgent?: string;
+    extraHeaders?: string;
+  }
+
+  export interface LoadFileOptions {
+    query?: Record<string, string>;
+    search?: string;
+  }
+
+  // WebContents
+  export class WebContents extends EventEmitter {
+    loadURL(url: string, options?: LoadURLOptions): Promise<void>;
+    executeJavaScript(code: string): Promise<any>;
+    openDevTools(options?: { mode: 'detach' | 'attach' | 'right' | 'bottom' }): void;
+    send(channel: string, ...args: any[]): void;
+    getURL(): string;
+    getTitle(): string;
+    id: number;
+    session: Session;
+  }
+
+  // IPC
+  export interface IpcMain extends EventEmitter {
+    handle(channel: string, listener: (event: IpcMainInvokeEvent, ...args: any[]) => Promise<any> | any): void;
+    handleOnce(channel: string, listener: (event: IpcMainInvokeEvent, ...args: any[]) => Promise<any> | any): void;
+    removeHandler(channel: string): void;
+    on(channel: string, listener: (event: IpcMainEvent, ...args: any[]) => void): this;
+    once(channel: string, listener: (event: IpcMainEvent, ...args: any[]) => void): this;
+  }
+
+  export interface IpcMainEvent extends Event {
+    sender: WebContents;
+    reply(channel: string, ...args: any[]): void;
+  }
+
+  export interface IpcMainInvokeEvent {
+    sender: WebContents;
+  }
+
+  // Dock
+  export interface Dock {
+    bounce(type?: 'informational' | 'critical'): number;
+    cancelBounce(id: number): void;
+    setBadge(text: string): void;
+    getBadge(): string;
+    hide(): void;
+    show(): void;
+    setIcon(icon: string): void;
+  }
+
+  // Session
+  export class Session extends EventEmitter {
+    webRequest: WebRequest;
+    cookies: Cookies;
+  }
+
+  export interface Cookies {
+    get(filter: { url?: string; name?: string }): Promise<Cookie[]>;
+    set(data: CookieSetOptions): Promise<void>;
+    remove(url: string, name: string): Promise<void>;
+  }
+
+  export interface Cookie {
+    name: string;
+    value: string;
+    domain: string;
+    hostOnly: boolean;
+    path: string;
+    secure: boolean;
+    httpOnly: boolean;
+    session: boolean;
+    expirationDate?: number;
+  }
+
+  export interface CookieSetOptions {
+    url: string;
+    name: string;
+    value: string;
+    domain?: string;
+    path?: string;
+    secure?: boolean;
+    httpOnly?: boolean;
+    expirationDate?: number;
+  }
+
+  export interface WebRequest {
+    onBeforeRequest(callback: (details: OnBeforeRequestDetails, callback: (response: OnBeforeRequestResponse) => void) => void): void;
+    onBeforeSendHeaders(callback: (details: OnBeforeSendHeadersDetails, callback: (response: OnBeforeSendHeadersResponse) => void) => void): void;
+    onSendHeaders(callback: (details: OnSendHeadersDetails) => void): void;
+    onHeadersReceived(callback: (details: OnHeadersReceivedDetails, callback: (response: OnHeadersReceivedResponse) => void) => void): void;
+  }
+
+  export interface OnBeforeRequestDetails {
+    id: number;
+    url: string;
+    method: string;
+    webContentsId?: number;
+    resourceType: string;
+    timestamp: number;
+  }
+
+  export interface OnBeforeRequestResponse {
+    cancel?: boolean;
+    redirectURL?: string;
+  }
+
+  export interface OnBeforeSendHeadersDetails {
+    id: number;
+    url: string;
+    method: string;
+    webContentsId?: number;
+    resourceType: string;
+    timestamp: number;
+    requestHeaders: Record<string, string>;
+  }
+
+  export interface OnBeforeSendHeadersResponse {
+    cancel?: boolean;
+    requestHeaders?: Record<string, string>;
+  }
+
+  export interface OnSendHeadersDetails {
+    id: number;
+    url: string;
+    method: string;
+    webContentsId?: number;
+    resourceType: string;
+    timestamp: number;
+    requestHeaders: Record<string, string>;
+  }
+
+  export interface OnHeadersReceivedDetails {
+    id: number;
+    url: string;
+    method: string;
+    webContentsId?: number;
+    resourceType: string;
+    timestamp: number;
+    responseHeaders?: Record<string, string>;
+    statusLine: string;
+  }
+
+  export interface OnHeadersReceivedResponse {
+    cancel?: boolean;
+    responseHeaders?: Record<string, string>;
+    statusLine?: string;
+  }
+
+  // Clipboard
+  export const clipboard: Clipboard;
+
+  export interface Clipboard {
+    readText(type?: string): string;
+    writeText(text: string, type?: string): void;
+    readBuffer(type?: string): Buffer;
+    writeBuffer(buffer: Buffer, type?: string): void;
+    clear(type?: string): void;
+  }
+
+  // GlobalShortcut
+  export const globalShortcut: GlobalShortcut;
+
+  export interface GlobalShortcut {
+    register(command: string, accelerator: string, callback: () => void): void;
+    registerAll(shortcuts: string[], accelerator: string, callback: () => void): void;
+    isRegistered(command: string): boolean;
+    unregister(command: string): void;
+    unregisterAll(): void;
+  }
+
+  // Menu
+  export const menu: Menu;
+
+  export class Menu {
+    static setApplicationMenu(menu: Menu | null): void;
+    static getApplicationMenu(): Menu | null;
+    static buildFromTemplate(template: MenuItemConstructorOptions[]): Menu;
+    static sendActionToFirstResponder(action: string): void;
+    popup(options?: PopupOptions): void;
+    closePopup(options?: PopupOptions): void;
+    items: MenuItem[];
+  }
+
+  export interface MenuItemConstructorOptions {
+    label?: string;
+    submenu?: MenuItemConstructorOptions[] | Menu;
+    type?: 'normal' | 'separator' | 'submenu' | 'checkbox' | 'radio';
+    click?: (menuItem: MenuItem, browserWindow: BrowserWindow, event: KeyboardEvent) => void;
+    enabled?: boolean;
+    visible?: boolean;
+    checked?: boolean;
+    accelerator?: string;
+    icon?: string;
+  }
+
+  export class MenuItem {
+    constructor(options: MenuItemConstructorOptions);
+    enabled: boolean;
+    visible: boolean;
+    checked: boolean;
+    label: string;
+    submenu: Menu | null;
+  }
+
+  export interface PopupOptions {
+    x?: number;
+    y?: number;
+    window?: BrowserWindow;
+    button?: number;
+    coordinates?: { x: number; y: number };
+  }
+
+  // Notification
+  export class Notification extends EventEmitter {
+    constructor(options?: NotificationConstructorOptions);
+    static isSupported(): boolean;
+    show(): void;
+    close(): void;
+    title: string;
+    body: string;
+  }
+
+  export interface NotificationConstructorOptions {
+    title?: string;
+    body?: string;
+    subtitle?: string;
+    silent?: boolean;
+    icon?: string;
+    hasReply?: boolean;
+    replyPlaceholder?: string;
+    sound?: string;
+    urgency?: 'normal' | 'critical' | 'low';
+  }
+
+  // PowerMonitor
+  export const powerMonitor: PowerMonitor;
+
+  export class PowerMonitor extends EventEmitter {
+    on(event: 'suspend' | 'resume' | 'lock-screen' | 'unlock-screen', listener: () => void): this;
+    once(event: 'suspend' | 'resume' | 'lock-screen' | 'unlock-screen', listener: () => void): this;
+    getSystemIdleState(idleTime: number): 'active' | 'idle' | 'locked' | 'unlocked';
+  }
+
+  // PowerSaveBlocker
+  export const powerSaveBlocker: PowerSaveBlocker;
+
+  export interface PowerSaveBlocker {
+    start(type: 'prevent-app-suspension' | 'prevent-display-sleep'): number;
+    stop(id: number): void;
+    isStarted(id: number): boolean;
+  }
+
+  // Process
+  export const process: Process;
+
+  export interface Process {
+    pid: number;
+    arch: string;
+    platform: string;
+    version: string;
+    versions: Record<string, string>;
+    cwd: string;
+    memoryUsage: MemoryUsage;
+    cpuUsage: CPUUsage;
+    sandboxed: boolean;
+    contextIsolated: boolean;
+    type: string;
+    noAsar: boolean;
+    noDeprecation: boolean;
+    hang: boolean;
+    crash: boolean;
+  }
+
+  export interface MemoryUsage {
+    heapTotal: number;
+    heapUsed: number;
+    external: number;
+    stackTotal?: number;
+  }
+
+  export interface CPUUsage {
+    percentCPUUsage: number;
+    idleWakeupsPerSecond: number;
+  }
+
+  // Shell
+  export const shell: Shell;
+
+  export interface Shell {
+    showItemInFolder(fullPath: string): void;
+    openPath(fullPath: string): Promise<string>;
+    openExternal(url: string, options?: OpenExternalOptions): Promise<void>;
+    trashItem(path: string): Promise<void>;
+    beeps(): void;
+  }
+
+  export interface OpenExternalOptions {
+    activate?: boolean;
+    workingDirectory?: string;
+  }
+
+  // Screen
+  export const screen: Screen;
+
+  export class Screen extends EventEmitter {
+    getCursorScreenPoint(): Point;
+    getPrimaryDisplay(): Display;
+    getAllDisplays(): Display[];
+    getDisplayNearestPoint(point: Point): Display;
+    getDisplayMatching(rect: Rectangle): Display | null;
+    on(event: 'display-added' | 'display-removed' | 'display-metrics-changed', listener: (event: Event, display: Display) => void): this;
+    once(event: 'display-added' | 'display-removed' | 'display-metrics-changed', listener: (event: Event, display: Display) => void): this;
+  }
+
+  export interface Point {
+    x: number;
+    y: number;
+  }
+
+  export interface Rectangle {
+    x: number;
+    y: number;
+    width: number;
+    height: number;
+  }
+
+  export interface Display {
+    id: number;
+    label: string;
+    bounds: Rectangle;
+    workArea: Rectangle;
+    size: { width: number; height: number };
+    workAreaSize: { width: number; height: number };
+    scaleFactor: number;
+    colorDepth: number;
+    colorSpace: string;
+    monochrome: boolean;
+    touchSupport: 'available' | 'unavailable' | 'unknown';
+  }
+
+  // NativeTheme
+  export const nativeTheme: NativeTheme;
+
+  export class NativeTheme extends EventEmitter {
+    shouldUseDarkColors: boolean;
+    shouldUseHighContrastColors: boolean;
+    shouldUseInvertedColorScheme: boolean;
+    themeSource: 'system' | 'light' | 'dark';
+    on(event: 'updated', listener: () => void): this;
+    once(event: 'updated', listener: () => void): this;
+    getColorPath(color: 'blue' | 'purple' | 'pink' | 'red' | 'orange' | 'yellow' | 'green' | 'brown' | 'grey' | 'grayscale' | 'augmented' | '彩虹'): string;
+  }
+
+  // ipcRenderer
+  export interface IpcRenderer extends EventEmitter {
+    send(channel: string, ...args: any[]): void;
+    sendSync(channel: string, ...args: any[]): any;
+    sendTo(webContentsId: number, channel: string, ...args: any[]): void;
+    postMessage(channel: string, message: any, transfers?: MessagePort[]): void;
+    invoke(channel: string, ...args: any[]): Promise<any>;
+    on(channel: string, listener: (event: IpcRendererEvent, ...args: any[]) => void): this;
+    once(channel: string, listener: (event: IpcRendererEvent, ...args: any[]) => void): this;
+    off(channel: string, listener: (...args: any[]) => void): this;
+    removeListener(channel: string, listener: (...args: any[]) => void): this;
+    removeAllListeners(channel: string): this;
+    emit(event: string, ...args: any[]): boolean;
+  }
+
+  export interface IpcRendererEvent {
+    sender: WebContents;
+    senderId: number;
+    ports: MessagePort[];
+  }
+
+  // ContextBridge
+  export interface ContextBridge {
+    exposeInMainWorld(apiKey: string, api: any): void;
+  }
+
+  // 导出实例
+  export const app: App;
+  export const ipcMain: IpcMain;
+  export const ipcRenderer: IpcRenderer;
+  export const contextBridge: ContextBridge;
+
+  // BrowserView (简化)
+  export class BrowserView {
+    constructor(options?: { webPreferences?: WebPreferences });
+    webContents: WebContents;
+    setBounds(bounds: Rectangle): void;
+    getBounds(): Rectangle;
+  }
+
+  // CommandLine
+  export const commandLine: CommandLine;
+
+  export interface CommandLine {
+    hasSwitch(name: string): boolean;
+    getSwitchValue(name: string): string;
+    appendSwitch(name: string, value?: string): void;
+    appendArgument(value: string): void;
+  }
+
+  // CrashReporter
+  export const crashReporter: CrashReporter;
+
+  export interface CrashReporter {
+    start(options: CrashReporterStartOptions): void;
+    getLastCrashReport(): CrashDumpInfo | null;
+    getUploadedReports(): CrashDumpInfo[];
+    addExtraParameter(key: string, value: string): void;
+    removeExtraParameter(key: string): void;
+    getParameters(): Record<string, string>;
+  }
+
+  export interface CrashReporterStartOptions {
+    productName?: string;
+    companyName?: string;
+    submitURL?: string;
+    uploadToServer?: boolean;
+    ignoreSystemCrashHandler?: boolean;
+    extra?: Record<string, string>;
+  }
+
+  export interface CrashDumpInfo {
+    date: Date;
+    id: string;
+  }
+
+  // Dialog
+  export const dialog: Dialog;
+
+  export interface Dialog {
+    showOpenDialog(options: OpenDialogOptions): Promise<OpenDialogReturnValue>;
+    showOpenDialogSync(options: OpenDialogOptions): string[] | undefined;
+    showSaveDialog(options: SaveDialogOptions): Promise<SaveDialogReturnValue>;
+    showSaveDialogSync(options: SaveDialogOptions): string | undefined;
+    showMessageBox(options: MessageBoxOptions): Promise<MessageBoxReturnValue>;
+    showMessageBoxSync(options: MessageBoxOptions): number;
+    showErrorBox(title: string, content: string): void;
+    showCertificateTrustDialog(options: CertificateTrustDialogOptions): Promise<void>;
+  }
+
+  export interface OpenDialogOptions {
+    title?: string;
+    defaultPath?: string;
+    buttonLabel?: string;
+    filters?: FileFilter[];
+    properties?: ('openFile' | 'openDirectory' | 'multiSelections' | 'showHiddenFiles' | 'createDirectory' | 'promptToCreate' | 'noResolveAliases' | 'treatPackageAsDirectory')[];
+    message?: string;
+    securityScopedBookmarks?: boolean;
+  }
+
+  export interface OpenDialogReturnValue {
+    canceled: boolean;
+    filePaths: string[];
+    bookmarks?: string[];
+  }
+
+  export interface SaveDialogOptions {
+    title?: string;
+    defaultPath?: string;
+    buttonLabel?: string;
+    filters?: FileFilter[];
+    message?: string;
+    nameFieldLabel?: string;
+    showsTagFieldByDefault?: boolean;
+    securityScopedBookmarks?: boolean;
+  }
+
+  export interface SaveDialogReturnValue {
+    canceled: boolean;
+    filePath?: string;
+    bookmark?: string;
+  }
+
+  export interface MessageBoxOptions {
+    type?: 'none' | 'info' | 'error' | 'question' | 'warning';
+    buttons?: string[];
+    defaultId?: number;
+    title?: string;
+    message: string;
+    detail?: string;
+    checkboxLabel?: string;
+    checkboxChecked?: boolean;
+    icon?: NativeImage;
+    cancelId?: number;
+    noLink?: boolean;
+  }
+
+  export interface MessageBoxReturnValue {
+    response: number;
+    checkboxChecked: boolean;
+  }
+
+  export interface CertificateTrustDialogOptions {
+    window?: BrowserWindow;
+    certificate: Certificate;
+    message: string;
+  }
+
+  export interface FileFilter {
+    name: string;
+    extensions: string[];
+  }
+
+  export interface Certificate {
+    data: Buffer;
+    issuer: CertificatePrincipal;
+    subject: CertificatePrincipal;
+    fingerprint: string;
+    serialNumber: string;
+    validStart: number;
+    validExpiry: number;
+    issuerName: string;
+    subjectName: string;
+  }
+
+  export interface CertificatePrincipal {
+    commonName: string;
+    organization: string;
+    organizationalUnit: string;
+    locality: string;
+    province: string;
+    country: string;
+  }
+
+  // NativeImage
+  export class NativeImage {
+    static createEmpty(): NativeImage;
+    static createFromPath(path: string): NativeImage;
+    static createFromBuffer(buffer: Buffer, scaleFactor?: number): NativeImage;
+    static createFromDataURL(dataURL: string): NativeImage;
+    static createFromNamedImage(name: string, scaleFactor?: number): NativeImage;
+    toPNG(): Buffer;
+    toJPEG(quality: number): Buffer;
+    toDataURL(scaleFactor?: number): string;
+    getBitmap(format?: 'png' | 'jpeg' | 'webp' | 'avif', quality?: number): Buffer;
+    toBitmap(): Buffer;
+    getNativeHandle(): Buffer;
+    isEmpty(): boolean;
+    isMacTemplateImage(): boolean;
+    setMacTemplateImage(isTemplate: boolean): void;
+    getSize(): { width: number; height: number };
+    setSize(size: { width: number; height: number }): void;
+    getAspectRatio(): number;
+    resize(options: { width: number; height?: number; quality?: 'good' | 'better' | 'best' }): NativeImage;
+    crop(rect: Rectangle): NativeImage;
+  }
+
+  // Protocol
+  export const protocol: Protocol;
+
+  export interface Protocol {
+    registerSchemesAsPrivileged(customSchemes: { scheme: string; privileges: ProtocolPrivilegedScheme }[]): void;
+    registerFileProtocol(scheme: string, handler: (request: Request, callback: (filePath: string) => void) => void): boolean;
+    registerBufferProtocol(scheme: string, handler: (request: Request, callback: (data: Buffer | null) => void) => void): boolean;
+    registerStringProtocol(scheme: string, handler: (request: Request, callback: (data: string) => void) => void): boolean;
+    registerHttpProtocol(scheme: string, handler: (request: Request, callback: (response: Response) => void) => void): boolean;
+    unregisterProtocol(scheme: string): boolean;
+    isProtocolHandled(scheme: string, completion?: (handled: boolean) => void): void;
+  }
+
+  export interface ProtocolPrivilegedScheme {
+    standard?: boolean;
+    secure?: boolean;
+    privileges?: {
+      allowServiceWorkers?: boolean;
+      bypassCSP?: boolean;
+      corsEnabled?: boolean;
+    };
+  }
+
+  export interface Request {
+    url: string;
+    method: string;
+    referrer: string;
+    uploadData?: UploadData[];
+  }
+
+  export interface UploadData {
+    type: string;
+    bytes: Buffer;
+    file?: string;
+  }
+
+  export interface Response {
+    action: 'allow' | 'cancel';
+    url?: string;
+    data?: Buffer;
+  }
+
+  // TouchBar
+  export const touchBar: TouchBar;
+
+  export class TouchBar {
+    constructor(options: TouchBarConstructorOptions);
+    static escapeItem: TouchBarLabel;
+  }
+
+  export interface TouchBarConstructorOptions {
+    items?: TouchBarItem[];
+    escapeItem?: TouchBarItem;
+  }
+
+  export type TouchBarItem = TouchBarButton | TouchBarLabel | TouchBarSpacer | TouchBarPopover | TouchBarGroup | TouchBarColorPicker | TouchBarSlider | TouchBarSegmentedControl;
+
+  export interface TouchBarButton extends EventEmitter {
+    label: string;
+    backgroundColor: string;
+    icon: NativeImage;
+    iconPosition: 'left' | 'right' | 'overlay';
+    click: () => void;
+  }
+
+  export interface TouchBarLabel {
+    label: string;
+    textColor: string;
+  }
+
+  export interface TouchBarSpacer {
+    type: 'small' | 'large' | 'flexible';
+  }
+
+  export interface TouchBarPopover {
+    label: string;
+    icon: NativeImage;
+    items: TouchBarItem[];
+    showCloseButton: boolean;
+  }
+
+  export interface TouchBarGroup {
+    label: string;
+    items: TouchBarItem[];
+  }
+
+  export interface TouchBarColorPicker {
+    availableColors: string[];
+    selectedColor: string;
+    change: (color: string) => void;
+  }
+
+  export interface TouchBarSlider {
+    label: string;
+    value: number;
+    minValue: number;
+    maxValue: number;
+    change: (value: number) => void;
+  }
+
+  export interface TouchBarSegmentedControl {
+    segmentStyle: 'automatic' | 'rounded' | 'textured-rounded' | 'round-rect' | 'textured-square' | 'capsule' | 'render-default' | 'rendering-original';
+    mode: 'single' | 'multiple';
+    segments: { id: string; label: string; icon: NativeImage; enabled: boolean }[];
+    selectedIndex: number;
+    change: (selectedIndex: number, isSelected: boolean) => void;
+  }
+
+  // 工具函数
+}

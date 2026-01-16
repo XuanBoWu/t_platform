@@ -1,0 +1,274 @@
+/* 全局样式重置 */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    'Helvetica Neue', Arial, sans-serif;
+  background-color: #f5f5f5;
+  color: #1a1a1a;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* Ant Design 组件覆盖 - 深色文字 */
+.ant-layout {
+  background: #f5f5f5 !important;
+}
+
+.ant-layout-sider {
+  background: #ffffff !important;
+  border-right: 1px solid #e8e8e8 !important;
+}
+
+.ant-layout-sider-trigger {
+  background: #f0f0f0 !important;
+  color: #1a1a1a !important;
+}
+
+.ant-menu {
+  background: transparent !important;
+  color: #1a1a1a !important;
+}
+
+.ant-menu-item {
+  color: #1a1a1a !important;
+}
+
+.ant-menu-item-selected {
+  background-color: #1890ff !important;
+  color: white !important;
+}
+
+.ant-menu-item:hover {
+  background-color: #f0f0f0 !important;
+}
+
+.ant-card {
+  background: #ffffff !important;
+  border-color: #e8e8e8 !important;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
+  border-radius: 8px !important;
+}
+
+.ant-card-head {
+  border-bottom: 1px solid #e8e8e8 !important;
+  color: #1a1a1a !important;
+  min-height: auto !important;
+  padding: 12px 20px !important;
+}
+
+.ant-card-head-title {
+  font-weight: 600 !important;
+  color: #1a1a1a !important;
+  font-size: 15px !important;
+}
+
+.ant-card-body {
+  padding: 16px 20px !important;
+}
+
+.ant-btn-primary {
+  background: #1890ff !important;
+  border-color: #1890ff !important;
+  border-radius: 6px !important;
+}
+
+.ant-btn {
+  border-radius: 6px !important;
+}
+
+.ant-input,
+.ant-select-selector {
+  background: #ffffff !important;
+  border-color: #d9d9d9 !important;
+  border-radius: 6px !important;
+}
+
+.ant-input:focus,
+.ant-select-focused .ant-select-selector {
+  border-color: #1890ff !important;
+  box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2) !important;
+}
+
+.ant-input::placeholder {
+  color: #999 !important;
+}
+
+.ant-tabs {
+  color: #1a1a1a !important;
+}
+
+.ant-tabs-tab {
+  color: #595959 !important;
+  font-size: 14px !important;
+}
+
+.ant-tabs-tab-active {
+  color: #1890ff !important;
+  font-weight: 500 !important;
+}
+
+.ant-tabs-ink-bar {
+  background: #1890ff !important;
+  height: 2px !important;
+}
+
+.ant-list-item {
+  border-color: #e8e8e8 !important;
+  padding: 12px 16px !important;
+}
+
+.ant-tag {
+  border: none !important;
+  border-radius: 4px !important;
+  font-size: 12px !important;
+}
+
+.ant-typography {
+  color: #1a1a1a !important;
+}
+
+.ant-typography-title {
+  color: #1a1a1a !important;
+}
+
+.ant-typography-text {
+  color: #1a1a1a !important;
+}
+
+.ant-typography-secondary {
+  color: #595959 !important;
+}
+
+.ant-typography-success {
+  color: #52c41a !important;
+}
+
+.ant-typography-warning {
+  color: #faad14 !important;
+}
+
+.ant-typography-danger {
+  color: #ff4d4f !important;
+}
+
+/* 标签页内容区域 */
+.ant-tabs-content-holder {
+  background: #f5f5f5 !important;
+}
+
+.ant-tabs-content {
+  color: #1a1a1a !important;
+}
+
+/* 滚动条样式 */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f0f0f0;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #bfbfbf;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #8c8c8c;
+}
+
+/* 工具类 */
+.flex {
+  display: flex;
+}
+
+.flex-col {
+  flex-direction: column;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.justify-center {
+  justify-content: center;
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.gap-2 {
+  gap: 8px;
+}
+
+.gap-4 {
+  gap: 16px;
+}
+
+.p-2 {
+  padding: 8px;
+}
+
+.p-4 {
+  padding: 16px;
+}
+
+.h-full {
+  height: 100%;
+}
+
+.w-full {
+  width: 100%;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-sm {
+  font-size: 12px;
+}
+
+.text-lg {
+  font-size: 16px;
+}
+
+.text-xl {
+  font-size: 20px;
+}
+
+.font-bold {
+  font-weight: 600;
+}
+
+.text-muted {
+  color: #8c8c8c;
+}
+
+.text-success {
+  color: #52c41a;
+}
+
+.text-warning {
+  color: #faad14;
+}
+
+.text-error {
+  color: #ff4d4f;
+}
