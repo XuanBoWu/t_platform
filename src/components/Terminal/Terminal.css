@@ -1,0 +1,70 @@
+.terminal {
+  flex: 1;
+  background: #1e1e1e;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.terminal-header {
+  padding: 12px 16px;
+  border-bottom: 1px solid #303030;
+  background: #252526;
+}
+
+.terminal-content {
+  flex: 1;
+  padding: 16px;
+  overflow-y: auto;
+  height: 100%;
+}
+
+.terminal-outputs {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.terminal-output {
+  background: #252526;
+  border: 1px solid #303030;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.terminal-output-header {
+  padding: 8px 12px;
+  background: #2d2d30;
+  border-bottom: 1px solid #303030;
+}
+
+.terminal-output-content {
+  margin: 0;
+  padding: 12px;
+  font-family: 'Consolas', 'Courier New', monospace;
+  font-size: 13px;
+  line-height: 1.5;
+  color: #cccccc;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.terminal-output-content::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+.terminal-output-content::-webkit-scrollbar-track {
+  background: #1e1e1e;
+}
+
+.terminal-output-content::-webkit-scrollbar-thumb {
+  background: #424242;
+  border-radius: 5px;
+}
+
+.terminal-output-content::-webkit-scrollbar-thumb:hover {
+  background: #4f4f4f;
+}

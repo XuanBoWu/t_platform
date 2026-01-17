@@ -10,11 +10,19 @@
     "type": "git",
     "url": "git+https://github.com/alexwu/t_platform.git"
   },
-  "keywords": ["android", "adb", "electron", "react", "typescript", "automation", "testing"],
+  "keywords": [
+    "android",
+    "adb",
+    "electron",
+    "react",
+    "typescript",
+    "automation",
+    "testing"
+  ],
   "scripts": {
-    "dev": "concurrently \"npm run dev:react\" \"npm run dev:electron\"",
+    "dev": "concurrently \"npm run dev:react\" \"sleep 5 && npm run dev:electron\"",
     "dev:react": "vite",
-    "dev:electron": "wait-on http://localhost:5173 && npx esbuild electron/main.ts --bundle --outfile=dist/electron/main.js --platform=node --target=node18 --external:electron && node dist/electron/main.js",
+    "dev:electron": "npx esbuild electron/main.ts --bundle --outfile=dist/electron/main.js --platform=node --target=node18 --external:electron && node dist/electron/main.js",
     "build": "npm run build:react && npm run build:electron",
     "build:react": "tsc -b && vite build",
     "build:electron": "esbuild electron/main.ts --bundle --outfile=dist/electron/main.js --platform=node --target=node18",
@@ -25,7 +33,8 @@
     "adbkit": "^2.11.1",
     "antd": "^6.2.0",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "zustand": "^5.0.10"
   },
   "devDependencies": {
     "@types/node": "^20.10.0",

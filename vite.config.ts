@@ -3,20 +3,29 @@ import react from '@vitejs/plugin-react';
 import path from 'path';
 
 export default defineConfig({
-  root: 'renderer',
-  base: './',
   plugins: [react()],
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, './renderer/src'),
-      '@shared': path.resolve(__dirname, './shared'),
+      '@': path.resolve(__dirname, './src'),
     },
   },
   server: {
     port: 5173,
-    strictPort: true,
+    host: 'localhost',
   },
   build: {
-    outDir: '../dist/renderer',
+    outDir: 'dist',
+    sourcemap: true,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          vendor: ['react', 'react-dom'],
+          antd: ['antd', '@ant-design/icons'],
+        },
+      },
+    },
+  },
+  optimizeDeps: {
+    include: ['react', 'react-dom', 'antd', '@ant-design/icons'],
   },
 });

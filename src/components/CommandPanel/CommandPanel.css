@@ -1,0 +1,43 @@
+.command-panel {
+  background: #252526;
+  border-bottom: 1px solid #303030;
+  padding: 16px;
+}
+
+.command-panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #303030;
+}
+
+.command-panel-content {
+  flex: 1;
+}
+
+.command-input {
+  font-family: 'Consolas', 'Courier New', monospace;
+  background: #1e1e1e !important;
+  border: 1px solid #3c3c3c !important;
+  color: #cccccc !important;
+}
+
+.command-input:focus {
+  border-color: #007acc !important;
+  box-shadow: 0 0 0 2px rgba(0, 122, 204, 0.2) !important;
+}
+
+.command-input::placeholder {
+  color: #555 !important;
+}
+
+.command-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.command-actions .ant-btn {
+  border-radius: 6px;
+}

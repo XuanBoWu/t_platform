@@ -1,0 +1,32 @@
+.activity-bar {
+  width: 60px;
+  height: 30px;
+  background: #333333;
+  border-bottom: 1px solid #303030;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 8px;
+}
+
+.activity-bar-item {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: 6px;
+  color: #cccccc;
+  transition: all 0.2s;
+  font-size: 20px;
+}
+
+.activity-bar-item:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.activity-bar-item.active {
+  background: #1e1e1e;
+  color: #ffffff;
+}

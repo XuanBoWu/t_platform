@@ -1,0 +1,66 @@
+.device-manager {
+  padding: 16px;
+  height: 100%;
+  overflow-y: auto;
+}
+
+.device-manager-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #303030;
+}
+
+.device-item {
+  cursor: pointer;
+  padding: 12px;
+  margin-bottom: 8px;
+  border-radius: 6px;
+  transition: all 0.2s;
+  border: 1px solid transparent;
+}
+
+.device-item:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: #303030;
+}
+
+.device-item.selected {
+  background: #094771;
+  border-color: #1e6bb8;
+}
+
+.device-info {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.device-details {
+  flex: 1;
+  margin-left: 8px;
+}
+
+.device-name {
+  font-weight: 500;
+  color: #cccccc;
+  margin-bottom: 2px;
+}
+
+.device-id {
+  font-size: 11px;
+  color: #888;
+  font-family: monospace;
+}
+
+.no-devices {
+  text-align: center;
+  padding: 40px 20px;
+  color: #888;
+}
+
+.no-devices p {
+  margin: 8px 0;
+}
