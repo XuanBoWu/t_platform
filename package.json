@@ -1,8 +1,16 @@
 {
-  "name": "t-platform-minimax",
+  "name": "t-platform",
   "version": "1.0.0",
-  "description": "Android Device Testing Platform",
+  "description": "Android Device Testing Platform - A cross-platform Android automation testing platform with Electron, React, and TypeScript",
   "main": "dist/electron/main.js",
+  "author": "",
+  "license": "MIT",
+  "homepage": "https://github.com/alexwu/t_platform#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alexwu/t_platform.git"
+  },
+  "keywords": ["android", "adb", "electron", "react", "typescript", "automation", "testing"],
   "scripts": {
     "dev": "concurrently \"npm run dev:react\" \"npm run dev:electron\"",
     "dev:react": "vite",

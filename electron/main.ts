@@ -3,7 +3,7 @@ import path from 'path';
 import { spawn } from 'child_process';
 
 // 硬编码项目根目录路径
-const PROJECT_ROOT = '/Users/alexwu/Projects/t_platform_minimax';
+const PROJECT_ROOT = '/Users/alexwu/Projects/t_platform';
 
 // 直接使用Electron可执行文件
 const electronPath = path.join(PROJECT_ROOT, 'node_modules/electron/Electron.app/Contents/MacOS/Electron');
